@@ -1,0 +1,84 @@
+﻿@model IEnumerable<MachineTest.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h2>Product List</h2>
+
+<p>
+    @Html.ActionLink("Go to Categories", "Index", "Category", null, new { @class = "btn btn-success" })
+</p>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Product</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ProductId</th>
+            <th>ProductName</th>
+            <th>CategoryId</th>
+            <th>CategoryName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.ProductName</td>
+                <td>@item.CategoryId</td>
+                <td>@item.Category?.CategoryName</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination d-flex justify-content-center">
+    <ul class="pagination">
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })">Previous</a>
+            </li>
+        }
+
+        @{
+            int startPage = Math.Max(1, ViewBag.CurrentPage - 2);
+            int endPage = Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2);
+
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <li class="page-item active">
+                    <span class="page-link">@i</span>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+        }
+
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+            </li>
+        }
+    </ul>
+</div>

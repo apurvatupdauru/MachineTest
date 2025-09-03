@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MachineTest.Models.Category>
+
+<h2>Category List</h2>
+<p>
+
+    <a asp-action="Create" class="btn btn-primary">Create New Category</a>
+</p>
+<p>
+    @Html.ActionLink("Go to Products", "Index", "Product", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>CategoryId</th>
+        <th>CategoryName</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.CategoryId</td>
+            <td>@item.CategoryName</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
